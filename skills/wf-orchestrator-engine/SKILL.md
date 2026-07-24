@@ -100,19 +100,23 @@ runAs: subagent
 - 读取 `{task_plan_path}`，扫描所有子任务
 - 如果发现多个任务同时处于进行中 → 只保留第一个，其余回退为 pending
 
-### 2. 使用 todo_write 更新任务（替代直接编辑 markdown）
-每个任务完成后：
-- **先调用 `complete_step`**：传入任务名和证据（如产出物路径、测试结果），签名确认完成
-- **然后调用 `todo_write`**：传入完整任务列表，将当前任务标为 completed，下一个任务标为 in_progress
-- 确保 `todo_write` 中**最多只有一个 in_progress**，否则系统会报冲突
+### 2. 更新 task_plan.md 中的任务状态
+每个任务完成后，编辑 `{task_plan_path}`：
+- 将已完成任务的 `- [ ]` 改为 `- [x]`
+- 将下一个任务的 `- [ ]` 改为 `- [x]`（表示进行中）
+- 确保整个文件中只有一个 in_progress 标记
 
-### 3. 更新 progress.md
+### 3. 尝试 todo_write（仅 Reasonix 可用）
+- 如果 `todo_write` 工具可用：调用一次 `todo_write` 同步最新状态到 Reasonix 的 todo 系统
+- 如果不可用（其他工具）：跳过此步骤，不影响流程
+
+### 4. 更新 progress.md
 将对应状态行改为 ✅ 已完成 / ❌ 失败 / ⏭️ 已跳过
 
-### 4. 追加 findings.md
+### 5. 追加 findings.md
 添加格式 `| {时间} | {阶段名} | {发现摘要} | {影响说明} |`
 
-### 5. 写入 checkpoint
+### 6. 写入 checkpoint
 读写 `{session_dir}/checkpoint.json`，更新 `last_completed_phase`，同步更新 `phases` 对象中对应阶段的状态
 
 ## 子Agent调用
