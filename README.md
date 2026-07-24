@@ -2,7 +2,7 @@
 
 > 多Agent协同开发工作流 · 双模式自适应 · 40 个技能 · 全平台兼容
 
-[![Version](https://img.shields.io/badge/version-4.1.7-blue)](VERSION)
+[![Version](https://img.shields.io/badge/version-4.1.9-blue)](VERSION)
 [![Skills](https://img.shields.io/badge/skills-40-green)](skills/)
 
 ## 双模式自动切换
