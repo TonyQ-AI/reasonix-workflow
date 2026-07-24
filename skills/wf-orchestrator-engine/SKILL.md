@@ -96,23 +96,24 @@ runAs: subagent
 
 ## 通用进度更新操作
 
-每个阶段完成后（无论成功/失败/跳过），执行以下操作：
+### 1. 串行任务检查
+- 读取 `{task_plan_path}`，扫描所有子任务
+- 如果发现多个任务同时处于进行中 → 只保留第一个，其余回退为 pending
 
-1. **串行任务检查**（防止多个 in_progress 冲突）：
-   - 读取 `{task_plan_path}`，扫描所有子任务（`- [ ]` 和 `- [x]`）
-   - 如果发现多个任务同时带有 in_progress 标记 → 只保留第一个，其余回退为 pending
-   - 确保整个 task_plan 中最多只有一个任务处于进行中状态
+### 2. 使用 todo_write 更新任务（替代直接编辑 markdown）
+每个任务完成后：
+- **先调用 `complete_step`**：传入任务名和证据（如产出物路径、测试结果），签名确认完成
+- **然后调用 `todo_write`**：传入完整任务列表，将当前任务标为 completed，下一个任务标为 in_progress
+- 确保 `todo_write` 中**最多只有一个 in_progress**，否则系统会报冲突
 
-2. **前置检查**（从 pending 切换到 in_progress 前）：
-   - 读取 `{task_plan_path}`，解析该阶段所有子任务（`- [ ]` 标记）
-   - 如果该阶段有任何子任务未完成（`- [ ]`），则不能标记阶段为完成
-   - 只有当所有子任务都已勾选（`- [x]`）后，才能将进度标记为 ✅ 已完成
+### 3. 更新 progress.md
+将对应状态行改为 ✅ 已完成 / ❌ 失败 / ⏭️ 已跳过
 
-3. **更新 progress.md**：将对应状态行改为 ✅ 已完成 / ❌ 失败 / ⏭️ 已跳过
+### 4. 追加 findings.md
+添加格式 `| {时间} | {阶段名} | {发现摘要} | {影响说明} |`
 
-4. **追加 findings.md**：添加格式 `| {时间} | {阶段名} | {发现摘要} | {影响说明} |`
-
-5. **写入 checkpoint**：读写 `{session_dir}/checkpoint.json`，更新 `last_completed_phase`，同步更新 `phases` 对象中对应阶段的状态
+### 5. 写入 checkpoint
+读写 `{session_dir}/checkpoint.json`，更新 `last_completed_phase`，同步更新 `phases` 对象中对应阶段的状态
 
 ## 子Agent调用
 
