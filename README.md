@@ -54,7 +54,7 @@ agents-workflow（新版 · 双模式 · 40 技能 · 自适应）
 
 - **子任务完成检查**：标记阶段完成前先扫描 task_plan.md，子任务未完成禁止推进
 - **串行任务修复**：防止多个 in_progress 冲突，确保 todo 列表串行有序
-- **多工具兼容**：Reasonix 上用 `todo_write` 同步状态，其他工具降级为编辑 markdown
+- **多工具兼容**：Reasonix等支持"todo-write"的工具上用 `todo_write` 同步状态，若工具不支持则降级为编辑 markdown
 - **todo 冲突修复**：不再出现"secondary in_progress"和"missing complete_step"错误
 
 ### v4.1.7（2026-07-13）— 升级迁移体验
