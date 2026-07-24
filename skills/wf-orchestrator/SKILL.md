@@ -254,7 +254,11 @@ task(
 
 1. 读取 `{SESSION_DIR}/SUMMARY.md`（如果存在），否则从各阶段产出物中收集摘要
 2. 读取 `{SESSION_DIR}/checkpoint.json` 获取最终状态
-3. **验证并兜底进度更新**：检查 progress.md 中 `from_phase` 到 `to_phase` 之间的阶段是否都已标记完成。
+3. **知识沉淀**（编排器层执行，不消耗引擎预算）：
+   - 确保 `docs/superpowers/knowledge/` 目录存在
+   - 读取 `{SESSION_DIR}/SUMMARY.md` 中的关键决策和发现
+   - 追加到 `docs/superpowers/knowledge/KNOWLEDGE.md`
+4. **验证并兜底进度更新**：检查 progress.md 中 `from_phase` 到 `to_phase` 之间的阶段是否都已标记完成。
    - 如果有阶段执行了但 progress.md 未更新，**立即补写**进度文件和 checkpoint.json
    - 这一步确保即使 subagent 遗漏了进度更新，外层也能兜底
 4. 向用户呈现完整的执行报告：
