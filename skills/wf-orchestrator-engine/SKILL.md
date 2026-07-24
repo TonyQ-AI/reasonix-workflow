@@ -96,10 +96,18 @@ runAs: subagent
 
 ## 通用进度更新操作
 
-每个阶段完成后（无论成功/失败/跳过），执行以下三个操作：
-1. **更新 progress.md**：将对应状态行改为 ✅ 已完成 / ❌ 失败 / ⏭️ 已跳过
-2. **追加 findings.md**：添加格式 `| {时间} | {阶段名} | {发现摘要} | {影响说明} |`
-3. **写入 checkpoint**：读写 `{session_dir}/checkpoint.json`，更新 `last_completed_phase`
+每个阶段完成后（无论成功/失败/跳过），执行以下操作：
+
+1. **前置检查**（从 pending 切换到 in_progress 前）：
+   - 读取 `{task_plan_path}`，解析该阶段所有子任务（`- [ ]` 标记）
+   - 如果该阶段有任何子任务未完成（`- [ ]`），则不能标记阶段为完成
+   - 只有当所有子任务都已勾选（`- [x]`）后，才能将进度标记为 ✅ 已完成
+
+2. **更新 progress.md**：将对应状态行改为 ✅ 已完成 / ❌ 失败 / ⏭️ 已跳过
+
+3. **追加 findings.md**：添加格式 `| {时间} | {阶段名} | {发现摘要} | {影响说明} |`
+
+4. **写入 checkpoint**：读写 `{session_dir}/checkpoint.json`，更新 `last_completed_phase`，同步更新 `phases` 对象中对应阶段的状态
 
 ## 子Agent调用
 
