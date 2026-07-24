@@ -50,6 +50,13 @@ agents-workflow（新版 · 双模式 · 40 技能 · 自适应）
 
 ## 更新日志
 
+### v4.1.8（2026-07-24）— 进度跟踪修复 + 多工具兼容
+
+- **子任务完成检查**：标记阶段完成前先扫描 task_plan.md，子任务未完成禁止推进
+- **串行任务修复**：防止多个 in_progress 冲突，确保 todo 列表串行有序
+- **多工具兼容**：Reasonix 上用 `todo_write` 同步状态，其他工具降级为编辑 markdown
+- **todo 冲突修复**：不再出现"secondary in_progress"和"missing complete_step"错误
+
 ### v4.1.7（2026-07-13）— 升级迁移体验
 
 - **升级检测**：自动检测旧版 `reasonix-workflow` / `workflow-task`，展示迁移说明
