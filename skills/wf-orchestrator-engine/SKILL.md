@@ -106,11 +106,16 @@ runAs: subagent
 - 将下一个任务的 `- [ ]` 改为 `- [x]`（表示进行中）
 - 确保整个文件中只有一个 in_progress 标记
 
-### 3. 尝试 todo_write（仅 Reasonix 可用）
-- 如果 `todo_write` 工具可用：调用一次 `todo_write` 同步最新状态到 Reasonix 的 todo 系统
-- 如果不可用（其他工具）：跳过此步骤，不影响流程
+### 3. 先用 complete_step 签名当前任务（仅 Reasonix 可用）
+- 如果 `complete_step` 工具可用：调用 `complete_step`，传入当前任务名和完成证据（产出物路径、测试结果等），签名确认完成
+- 如果不可用（其他工具）：跳过此步骤
 
-### 4. 更新 progress.md
+### 4. 再用 todo_write 更新状态（仅 Reasonix 可用）
+- 如果 `todo_write` 工具可用：调用 `todo_write` 传入完整任务列表，将当前任务标为 completed，下一个任务标为 in_progress
+- **必须先调用 complete_step，再调用 todo_write**，否则系统会报 "cannot be removed or replaced while it is in_progress"
+- 确保 `todo_write` 中最多只有一个 in_progress
+
+### 5. 更新 progress.md
 将对应状态行改为 ✅ 已完成 / ❌ 失败 / ⏭️ 已跳过
 
 ### 5. 追加 findings.md
