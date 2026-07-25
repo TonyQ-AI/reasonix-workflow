@@ -2,7 +2,7 @@
 
 > 多Agent协同开发工作流 · 双模式自适应 · 40 个技能 · 全平台兼容
 
-[![Version](https://img.shields.io/badge/version-4.1.9-blue)](VERSION)
+[![Version](https://img.shields.io/badge/version-4.1.10-blue)](VERSION)
 [![Skills](https://img.shields.io/badge/skills-40-green)](skills/)
 
 ## 双模式自动切换
@@ -49,6 +49,11 @@ agents-workflow（新版 · 双模式 · 40 技能 · 自适应）
 ```
 
 ## 更新日志
+
+### v4.1.10（2026-07-24）— 包管理器优化
+
+- **优先 pnpm**：项目依赖安装按 pnpm → yarn → npm 顺序选择，pnpm 全局缓存不重复下载
+- **Python 同理**：uv → poetry → pip
 
 ### v4.1.9（2026-07-24）— 知识沉淀加固 + 引擎瘦身
 
