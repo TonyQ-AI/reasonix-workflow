@@ -4,6 +4,17 @@
 
 ---
 
+## 适用场景
+
+本工作流为**工具缺机制、模型能力受限**的环境补齐短板。安装前先对照 [README 适用场景表](README.md#适用场景这套工作流对谁有价值)：
+
+- **✅ 需要完整安装**：工具缺少计划批准 / 任务跟踪 / 子Agent 调度；模型上下文小、易遗忘跳步；团队或新手需要标准化流程模板
+- **⚠️ 只需方法论技能**：工具已有 Plan 模式 + 原生任务跟踪 + 子Agent（ZCode、Claude Code 等现代工具），或使用大上下文 + 强模型——跳过 wf-* 编排层，只取 `brainstorming`、`arch-review`、`verification-before-completion` 等技能
+
+> 拿不准？先只装方法论技能试用，再决定是否引入完整流水线。
+
+---
+
 ## 快速安装
 
 把下面这句话发给你的 AI：
@@ -35,7 +46,7 @@ paths = ["agents-workflow/skills"]
 | 模式 | 条件 | 执行方式 |
 |------|------|---------|
 | **正常模式** | task 工具可用 | 编排器 → task(引擎 subagent) → task(子Agent) |
-| | | 适用：Reasonix、ZCode 等 |
+| | | 适用：Reasonix 等支持 task 子Agent 调用的工具 |
 | **inline 模式** | task 不可用 | 编排器直接执行所有阶段 |
 | | | 适用：Claude Code、Cursor、通用 LLM 对话 等 |
 
@@ -107,6 +118,11 @@ AI 会自动执行：
 ### 工具名不匹配
 - 新工具名统一加 `mimo_` 前缀：`mimo_understand_image` 等
 - 重启清除 MCP 缓存即可
+
+### 我的工具已有 Plan 模式 / 任务跟踪 / 子Agent，还需要装吗？
+- 大概率**不需要完整安装**：编排机制（wf-* 技能）是为缺机制的工具设计的补丁层
+- 建议只取方法论技能：`brainstorming`、`arch-review`、`verification-before-completion`、`systematic-debugging` 等，直接复制到你的技能目录即可
+- 判断标准见 [README 适用场景表](README.md#适用场景这套工作流对谁有价值)
 
 ### wf-orchestrator 没反应
 - 确认 skills/ 下有 `wf-orchestrator` 和 `wf-orchestrator-engine`
