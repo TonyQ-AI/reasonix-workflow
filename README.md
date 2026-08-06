@@ -4,6 +4,8 @@
 
 [![Version](https://img.shields.io/badge/version-4.1.11-blue)](VERSION)
 [![Skills](https://img.shields.io/badge/skills-40-green)](skills/)
+## 注意
+本工作流一开始出现的原因是reasonix早期版本原生能力尚有欠缺，遂开发工作流用以增强其能力，现随着reasonix和其他工具的持续更新迭代，原生能力已经越来越强，工作流变得可有可无，建议不再全量安装，只需要让Ai自行评估可以引入工作流中的哪些机制用以增强工具能力即可。
 
 ## 双模式自动切换
 
